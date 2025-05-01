@@ -13,6 +13,7 @@ import {
   useTheme,
   useMediaQuery
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const navItems = [
@@ -20,6 +21,7 @@ const navItems = [
   { name: 'Skills', href: '#skills' },
   { name: 'Education', href: '#education' },
   { name: 'Projects', href: '#projects' },
+  { name: 'MatarGashti', href: '/matargashti' },
   { name: 'Blog', href: '#blog' },
   { name: 'Contact', href: '#contact' },
 ];
@@ -52,8 +54,9 @@ const Navbar = () => {
         {navItems.map((item) => (
           <ListItem 
             key={item.name} 
-            component="a" 
-            href={item.href}
+            component={item.href.startsWith('/') ? RouterLink : 'a'}
+            to={item.href.startsWith('/') ? item.href : undefined}
+            href={!item.href.startsWith('/') ? item.href : undefined}
             sx={{ 
               color: 'text.primary',
               '&:hover': {
@@ -80,11 +83,13 @@ const Navbar = () => {
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <Typography
           variant="h6"
-          component="div"
+          component={RouterLink}
+          to="/"
           sx={{ 
             flexGrow: 1,
             fontWeight: 700,
             color: 'text.primary',
+            textDecoration: 'none',
           }}
         >
           Farhan Farooq
@@ -125,7 +130,9 @@ const Navbar = () => {
             {navItems.map((item) => (
               <Button
                 key={item.name}
-                href={item.href}
+                component={item.href.startsWith('/') ? RouterLink : 'a'}
+                to={item.href.startsWith('/') ? item.href : undefined}
+                href={!item.href.startsWith('/') ? item.href : undefined}
                 sx={{ 
                   color: 'text.primary',
                   '&:hover': {
