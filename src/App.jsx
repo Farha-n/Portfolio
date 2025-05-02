@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Education from './components/Education';
-import Projects from './components/Projects';
-import Blog from './components/Blog';
-import MatarGashtiProject from './components/MatarGashtiProject';
-import Contact from './components/Contact';
-import ParticlesBackground from './components/ParticlesBackground';
-import BackToTop from './components/BackToTop';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
+
+// Lazy load components
+const Navbar = React.lazy(() => import('./components/Navbar'));
+const Hero = React.lazy(() => import('./components/Hero'));
+const About = React.lazy(() => import('./components/About'));
+const Skills = React.lazy(() => import('./components/Skills'));
+const Education = React.lazy(() => import('./components/Education'));
+const Projects = React.lazy(() => import('./components/Projects'));
+const Blog = React.lazy(() => import('./components/Blog'));
+const MatarGashtiProject = React.lazy(() => import('./components/MatarGashtiProject'));
+const Contact = React.lazy(() => import('./components/Contact'));
+const ParticlesBackground = React.lazy(() => import('./components/ParticlesBackground'));
+const BackToTop = React.lazy(() => import('./components/BackToTop'));
 
 const theme = createTheme({
   palette: {
@@ -183,45 +185,50 @@ const theme = createTheme({
   },
 });
 
+// Loading component
+const LoadingSpinner = () => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
+
 const MainContent = () => {
   return (
-    <Box 
-      component="main" 
-      sx={{ 
-        pt: { xs: 8, sm: 9 },
-        minHeight: '100vh',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        color: '#ffffff',
-      }}
-    >
-      <Hero />
-      <About />
-      <Skills />
-      <Education />
-      <Projects />
-      <Blog />
-      <Contact />
-    </Box>
+    <Suspense fallback={<LoadingSpinner />}>
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
+        <Navbar />
+        <Hero />
+        <About />
+        <Skills />
+        <Education />
+        <Projects />
+        <Blog />
+        <MatarGashtiProject />
+        <Contact />
+        <BackToTop />
+      </Box>
+    </Suspense>
   );
 };
 
 function App() {
   return (
-    <Router>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <ParticlesBackground />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<MainContent />} />
-          <Route path="/matargashti" element={<MatarGashtiProject />} />
-        </Routes>
-        <BackToTop />
-      </MuiThemeProvider>
-    </Router>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Box sx={{ position: 'relative' }}>
+          <ParticlesBackground />
+          <MainContent />
+        </Box>
+      </Router>
+    </MuiThemeProvider>
   );
 }
 
