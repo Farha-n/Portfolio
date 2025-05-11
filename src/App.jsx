@@ -1,6 +1,5 @@
 import React from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -8,9 +7,8 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Education from './components/Education';
 import Projects from './components/Projects';
-import Blog from './components/Blog';
-import MatarGashtiProject from './components/MatarGashtiProject';
 import Contact from './components/Contact';
+import Blog from './components/Blog';
 import ParticlesBackground from './components/ParticlesBackground';
 import BackToTop from './components/BackToTop';
 import { Box } from '@mui/material';
@@ -183,45 +181,34 @@ const theme = createTheme({
   },
 });
 
-const MainContent = () => {
-  return (
-    <Box 
-      component="main" 
-      sx={{ 
-        pt: { xs: 8, sm: 9 },
-        minHeight: '100vh',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        color: '#ffffff',
-      }}
-    >
-      <Hero />
-      <About />
-      <Skills />
-      <Education />
-      <Projects />
-      <Blog />
-      <Contact />
-    </Box>
-  );
-};
-
 function App() {
   return (
-    <Router>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <ParticlesBackground />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<MainContent />} />
-          <Route path="/matargashti" element={<MatarGashtiProject />} />
-        </Routes>
-        <BackToTop />
-      </MuiThemeProvider>
-    </Router>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <ParticlesBackground />
+      <Navbar />
+      <Box 
+        component="main" 
+        sx={{ 
+          pt: { xs: 8, sm: 9 },
+          minHeight: '100vh',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
+          color: '#ffffff',
+        }}
+      >
+        <Hero />
+        <About />
+        <Skills />
+        <Education />
+        <Projects />
+        <Blog />
+        <Contact />
+      </Box>
+      <BackToTop />
+    </MuiThemeProvider>
   );
 }
 
