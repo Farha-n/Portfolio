@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Education from './components/Education';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
-import Blog from './components/Blog';
-import ParticlesBackground from './components/ParticlesBackground';
-import BackToTop from './components/BackToTop';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Lazy load components
+const Navbar = React.lazy(() => import('./components/Navbar'));
+const Hero = React.lazy(() => import('./components/Hero'));
+const About = React.lazy(() => import('./components/About'));
+const Skills = React.lazy(() => import('./components/Skills'));
+const Education = React.lazy(() => import('./components/Education'));
+const Projects = React.lazy(() => import('./components/Projects'));
+const Blog = React.lazy(() => import('./components/Blog'));
+const Contact = React.lazy(() => import('./components/Contact'));
+const ParticlesBackground = React.lazy(() => import('./components/ParticlesBackground'));
+const BackToTop = React.lazy(() => import('./components/BackToTop'));
 
 const theme = createTheme({
   palette: {
@@ -181,24 +184,25 @@ const theme = createTheme({
   },
 });
 
-function App() {
+// Loading component
+const LoadingSpinner = () => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
+
+const MainContent = () => {
   return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
-      <ParticlesBackground />
-      <Navbar />
-      <Box 
-        component="main" 
-        sx={{ 
-          pt: { xs: 8, sm: 9 },
-          minHeight: '100vh',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          color: '#ffffff',
-        }}
-      >
+    <Suspense fallback={<LoadingSpinner />}>
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
+        <Navbar />
         <Hero />
         <About />
         <Skills />
@@ -206,8 +210,21 @@ function App() {
         <Projects />
         <Blog />
         <Contact />
+        <BackToTop />
       </Box>
-      <BackToTop />
+    </Suspense>
+  );
+};
+function App() {
+  return (
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Box sx={{ position: 'relative' }}>
+          <ParticlesBackground />
+          <MainContent />
+        </Box>
+      </Router>
     </MuiThemeProvider>
   );
 }
