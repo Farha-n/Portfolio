@@ -10,12 +10,12 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 const Hero = () => {
   const handleDownloadCV = () => {
-    const link = document.createElement('a');
-    link.href = "https://drive.google.com/file/d/1lgAU63WI2NqXhEa3jCmnV4yDtsjQkld0/view?usp=sharing";
-    link.download = 'Farhan_Farooq_CV.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Google Drive direct download link format
+    // Convert sharing URL to direct download URL
+    const fileId = "1lgAU63WI2NqXhEa3jCmnV4yDtsjQkld0";
+    const directDownloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    
+    window.open(directDownloadUrl, '_blank');
   };
 
   return (
@@ -208,7 +208,7 @@ const Hero = () => {
       this.problemSolver &&
       this.skills.length >= 5
     );
-  };
+  }
 };`}
                 </Typography>
               </Box>

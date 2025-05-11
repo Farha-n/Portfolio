@@ -11,7 +11,7 @@ export default defineConfig({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'mui-vendor': ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
-          'animation-vendor': ['framer-motion', '@tsparticles/react', '@tsparticles/engine']
+          'animation-vendor': ['framer-motion', 'react-tsparticles', 'tsparticles']
         }
       }
     }
