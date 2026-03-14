@@ -4,6 +4,19 @@ import { motion } from 'framer-motion';
 import CodeIcon from '@mui/icons-material/Code';
 import SchoolIcon from '@mui/icons-material/School';
 
+const educationCardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (index) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      delay: index * 0.12,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
+
 const educationData = [
   {
     school: "Lovely Professional University",
@@ -33,7 +46,7 @@ const educationData = [
 
 const Education = () => {
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 3 } }}>
       <Box
         id="education"
         sx={{
@@ -77,41 +90,48 @@ const Education = () => {
           <Grid container spacing={3}>
             {educationData.map((edu, index) => (
               <Grid item xs={12} key={index}>
-                <Box
-                  sx={{
-                    backgroundColor: '#1a1a2e',
-                    borderRadius: '0.5rem',
-                    p: 3,
-                    boxShadow: '0 0 20px rgba(0,0,0,0.3)',
-                    transition: 'transform 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                    },
-                  }}
+                <motion.div
+                  custom={index}
+                  variants={educationCardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.25 }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 2 }}>
-                    <SchoolIcon sx={{ fontSize: 30, color: '#ff69b4' }} />
-                    <Box>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          color: '#ff69b4',
-                          fontWeight: 600,
-                        }}
-                      >
-                        {edu.school}
-                      </Typography>
-                      <Typography
-                        variant="subtitle1"
-                        sx={{
-                          color: 'white',
-                          opacity: 0.7,
-                        }}
-                      >
-                        {edu.location}
-                      </Typography>
+                  <Box
+                    sx={{
+                      backgroundColor: '#1a1a2e',
+                      borderRadius: '0.5rem',
+                      p: 3,
+                      boxShadow: '0 0 20px rgba(0,0,0,0.3)',
+                      transition: 'transform 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-5px)',
+                      },
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 2 }}>
+                      <SchoolIcon sx={{ fontSize: 30, color: '#ff69b4' }} />
+                      <Box>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            color: '#ff69b4',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {edu.school}
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          sx={{
+                            color: 'white',
+                            opacity: 0.7,
+                          }}
+                        >
+                          {edu.location}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
 
                   <Typography
                     variant="h6"
@@ -191,7 +211,8 @@ const Education = () => {
                       ))}
                     </Box>
                   </Box>
-                </Box>
+                  </Box>
+                </motion.div>
               </Grid>
             ))}
           </Grid>

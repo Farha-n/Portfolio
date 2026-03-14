@@ -2,7 +2,8 @@ import React, { Suspense } from 'react';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box, CircularProgress } from '@mui/material';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { motion, useScroll, useSpring } from 'framer-motion';
 
 // Lazy load components
 const Navbar = React.lazy(() => import('./components/Navbar'));
@@ -11,7 +12,6 @@ const About = React.lazy(() => import('./components/About'));
 const Skills = React.lazy(() => import('./components/Skills'));
 const Education = React.lazy(() => import('./components/Education'));
 const Projects = React.lazy(() => import('./components/Projects'));
-const Blog = React.lazy(() => import('./components/Blog'));
 const Contact = React.lazy(() => import('./components/Contact'));
 const ParticlesBackground = React.lazy(() => import('./components/ParticlesBackground'));
 const BackToTop = React.lazy(() => import('./components/BackToTop'));
@@ -198,18 +198,82 @@ const LoadingSpinner = () => (
   </Box>
 );
 
+const sectionReveal = {
+  hidden: { opacity: 0, y: 36 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const SectionReveal = ({ children, delay = 0 }) => (
+  <motion.div
+    variants={sectionReveal}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ delay }}
+  >
+    {children}
+  </motion.div>
+);
+
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 20,
+    restDelta: 0.001,
+  });
+
+  return (
+    <Box
+      component={motion.div}
+      style={{ scaleX }}
+      sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '4px',
+        zIndex: 2000,
+        transformOrigin: '0%',
+        background: 'linear-gradient(90deg, #00ff9d, #ff69b4)',
+        boxShadow: '0 0 14px rgba(0, 255, 157, 0.45)',
+      }}
+    />
+  );
+};
+
 const MainContent = () => {
   return (
     <Suspense fallback={<LoadingSpinner />}>
       <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Navbar />
-        <Hero />
-        <About />
-        <Skills />
-        <Education />
-        <Projects />
-        <Blog />
-        <Contact />
+        <SectionReveal>
+          <Hero />
+        </SectionReveal>
+        <SectionReveal delay={0.05}>
+          <About />
+        </SectionReveal>
+        <SectionReveal delay={0.1}>
+          <Box sx={{ mt: { xs: 6, md: 8 } }}>
+            <Skills />
+          </Box>
+        </SectionReveal>
+        <SectionReveal delay={0.1}>
+          <Education />
+        </SectionReveal>
+        <SectionReveal delay={0.1}>
+          <Projects />
+        </SectionReveal>
+        <SectionReveal delay={0.1}>
+          <Contact />
+        </SectionReveal>
         <BackToTop />
       </Box>
     </Suspense>
@@ -222,6 +286,7 @@ function App() {
       <Router>
         <Box sx={{ position: 'relative' }}>
           <ParticlesBackground />
+          <ScrollProgress />
           <MainContent />
         </Box>
       </Router>

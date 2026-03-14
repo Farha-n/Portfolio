@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const Skills = () => {
   const skillCategories = [
     {
-      title: "Frontend",
+      title: 'Frontend',
       skills: [
         {
           name: 'React',
@@ -42,7 +42,7 @@ const Skills = () => {
       ]
     },
     {
-      title: "Backend",
+      title: 'Backend',
       skills: [
         {
           name: 'Node.js',
@@ -72,11 +72,10 @@ const Skills = () => {
           name: 'Nginx',
           logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg',
         },
-        
       ]
     },
     {
-      title: "Tools & Technologies",
+      title: 'Tools & Technologies',
       skills: [
         {
           name: 'Git',
@@ -113,7 +112,7 @@ const Skills = () => {
       ]
     },
     {
-      title: "Soft Skills",
+      title: 'Soft Skills',
       skills: [
         {
           name: 'Leadership',
@@ -152,22 +151,22 @@ const Skills = () => {
   ];
 
   return (
-    <Container 
+    <Container
       maxWidth={false}
       sx={{
-        maxWidth: '1800px',
-        px: { xs: 2, md: 4 }
+        width: '100%',
+        px: { xs: 1.5, md: 3 }
       }}
     >
       <Box
         id="skills"
         sx={{
-          minHeight: '100vh',
+          minHeight: 'auto',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          py: 4,
+          justifyContent: 'flex-start',
+          py: { xs: 6, md: 8 },
           backgroundColor: '#0a192f',
           overflow: 'hidden',
         }}
@@ -225,9 +224,9 @@ const Skills = () => {
                     transition: {
                       x: {
                         repeat: Infinity,
-                        repeatType: "loop",
+                        repeatType: 'loop',
                         duration: 20,
-                        ease: "linear",
+                        ease: 'linear',
                       },
                     },
                   }}
@@ -298,4 +297,4 @@ const Skills = () => {
   );
 };
 
-export default Skills; 
+export default Skills;

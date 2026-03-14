@@ -44,7 +44,7 @@ const Blog = () => {
         justifyContent: 'center',
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 3 } }}>
         <Typography
           variant="h2"
           component="h2"
@@ -131,6 +131,7 @@ const Blog = () => {
             </Grid>
           ))}
         </Grid>
+
       </Container>
     </Box>
   );

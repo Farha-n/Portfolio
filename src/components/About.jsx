@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const About = () => {
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 3 } }}>
       <Box
         id="about"
         sx={{

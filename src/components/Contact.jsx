@@ -5,14 +5,20 @@ import SendIcon from '@mui/icons-material/Send';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import emailjs from '@emailjs/browser';
 import SocialLinks from './SocialLinks';
 
 const Contact = () => {
+  const ownerEmail = import.meta.env.VITE_EMAILJS_TO_EMAIL || 'khandayfarhan2@gmail.com';
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
   });
+  const [statusMessage, setStatusMessage] = useState('');
+  const [statusType, setStatusType] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -21,14 +27,55 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Message Sent!');
-    setFormData({ name: '', email: '', message: '' });
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
+      );
+
+      window.location.href = `mailto:${ownerEmail}?subject=${subject}&body=${body}`;
+      setStatusType('success');
+      setStatusMessage('Opened your email app. Send the drafted message to complete contact.');
+      setFormData({ name: '', email: '', message: '' });
+      return;
+    }
+
+    try {
+      setIsSending(true);
+      setStatusMessage('');
+
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          to_email: ownerEmail,
+          message: formData.message,
+        },
+        publicKey,
+      );
+
+      setStatusType('success');
+      setStatusMessage('Message sent successfully. Thank you for reaching out!');
+      setFormData({ name: '', email: '', message: '' });
+    } catch {
+      setStatusType('error');
+      setStatusMessage('Unable to send message right now. Please try again in a moment.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 3 } }}>
       <Box
         id="contact"
         sx={{
@@ -155,6 +202,7 @@ const Contact = () => {
               <Button
                 type="submit"
                 variant="contained"
+                disabled={isSending}
                 sx={{
                   alignSelf: 'flex-start',
                   bgcolor: '#9d00ff',
@@ -169,9 +217,17 @@ const Contact = () => {
                   },
                 }}
               >
-                Send Message
+                {isSending ? 'Sending...' : 'Send Message'}
                 <SendIcon sx={{ ml: 1 }} />
               </Button>
+              {statusMessage && (
+                <Typography
+                  variant="body2"
+                  sx={{ color: statusType === 'success' ? '#00ff9d' : '#ff6b6b', maxWidth: 560 }}
+                >
+                  {statusMessage}
+                </Typography>
+              )}
             </Box>
           </Box>
 

@@ -10,16 +10,13 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 const Hero = () => {
   const handleDownloadCV = () => {
-    // Google Drive direct download link format
-    // Convert sharing URL to direct download URL
-    const fileId = "1lgAU63WI2NqXhEa3jCmnV4yDtsjQkld0";
+    const fileId = '1x99V93Nt0yuZPmx9dxdhJbi5r51gC4Ft';
     const directDownloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-    
     window.open(directDownloadUrl, '_blank');
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth={false} sx={{ px: { xs: 1.5, md: 3 } }}>
       <Box
         sx={{
           minHeight: '100vh',
@@ -30,7 +27,6 @@ const Hero = () => {
           py: 8,
         }}
       >
-        {/* Left Section */}
         <Box sx={{ flex: 1 }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -92,7 +88,6 @@ const Hero = () => {
               .
             </Typography>
 
-            {/* Social Icons */}
             <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
               <IconLink href="https://github.com/Farha-n" icon={<GitHubIcon />} />
               <IconLink href="https://linkedin.com/in/farhan3181" icon={<LinkedInIcon />} />
@@ -100,11 +95,11 @@ const Hero = () => {
               <IconLink href="mailto:farhanfarooq786000@gmail.com" icon={<GoogleIcon />} />
             </Box>
 
-            {/* Buttons */}
-            <Box sx={{ display: 'flex', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
               <Button
                 variant="outlined"
                 startIcon={<EmailIcon />}
+                href="#contact"
                 sx={{
                   borderColor: '#1a1a1a',
                   color: 'white',
@@ -142,7 +137,6 @@ const Hero = () => {
           </motion.div>
         </Box>
 
-        {/* Right Section - Code Editor */}
         <Box
           sx={{
             flex: 1,
@@ -175,7 +169,6 @@ const Hero = () => {
                 boxShadow: '0 0 20px rgba(0,0,0,0.3)',
               }}
             >
-              {/* Code Editor Header */}
               <Box
                 sx={{
                   background: 'linear-gradient(135deg, #16162a 0%, #0f0f1a 100%)',
@@ -189,7 +182,6 @@ const Hero = () => {
                 <Box sx={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#27c93f' }} />
               </Box>
 
-              {/* Code Content */}
               <Box sx={{ p: 3, fontFamily: "'Fira Code', monospace", fontSize: '1rem', color: 'white' }}>
                 <Typography component="pre" sx={{ color: '#ff69b4', fontFamily: 'inherit' }}>
                   const
@@ -237,4 +229,4 @@ const IconLink = ({ href, icon }) => (
   </Box>
 );
 
-export default Hero; 
+export default Hero;
